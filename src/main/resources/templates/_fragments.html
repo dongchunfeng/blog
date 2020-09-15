@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">博客详情</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+
+<!--导航-->
+<nav th:fragment="menu(n)">
+        <div class="ui fixed borderless stackable menu animated rubberBand">
+            <div class="ui container">
+                <div class="header item">
+                    <i class="logo"></i>
+                    <a th:href="@{/}">
+                        <span>程序猿FF</span>
+                    </a>
+                </div>
+                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide" th:classappend="${n==1}?'active'"><i class=" home"></i>首页</a>
+                <a href="#" th:href="@{/types/-1}" class=" m-item item m-mobile-hide" th:classappend="${n==2}?'active'"><i class=" idea"></i>分类</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}?'active'"><i class=" tags"></i>标签</a>
+                <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}?'active'"><i class=" clone"></i>归档</a>
+                <a href="#" th:href="@{/messages}" class="m-item item m-mobile-hide" th:classappend="${n==5}?'active'"><i class=" info"></i>留言板</a>
+                <div class="right m-item item m-mobile-hide">
+                    <form name="search" th:action="@{/search}" method="post" target="_blank">
+                        <div class="ui icon transparent input m-margin-tb-tiny">
+                            <input type="text" name="query" placeholder="Search...." th:value="${query}">
+                            <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+                <i class="sidebar icon"></i>
+            </a>
+        </div>
+</nav>
+
+<!--底部footer-->
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../static/images/wechat.jpg" th:src="@{#{index.wechat}}" class="ui rounded image" alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
+                <div id="newBlogsContainer">
+                    <div class="ui inverted link list" th:fragment="newBlogsList">
+                        <a href="#" th:href="@{/blogs/{id}(id=${blog.id})}" class="item m-text-thin" th:text="${blog.title}" th:each="blog : ${newBlogs}">用户故事（User Story）</a>
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin" >Email：<span th:text="#{index.email}"></span></a>
+                    <a href="#" class="item m-text-thin">QQ：<span th:text="#{index.qq}"></span></a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced " th:text="#{index.title}">Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini" th:text="#{index.blogDescription}">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020- 2021 Designed by dcf</p>
+    </div>
+</footer>
+
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <script>
+        $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+        document.body.oncopy=function(){alert("复制成功！转载请务必保留原文链接，申明来源，谢谢合作！");}
+        $(function(){
+            $("#newBlogsContainer").load(/*[[@{/footer/newBlogs}]]*/"/footer/newBlogs");
+        });
+        // $('#toTop-button').click(function () {
+        //     $(window).scrollTo(0, 500);
+        // });
+        // //工具栏显示
+        // var waypoint = new Waypoint({
+        //     element: document.getElementById('waypoint'),
+        //     handler: function (direction) {
+        //         if (direction == 'down') {
+        //             $('#toolbar').show(100);
+        //         } else {
+        //             $('#toolbar').hide(500);
+        //         }
+        //         console.log('Scrolled to waypoint!  ' + direction);
+        //     }
+        // })
+
+        $(document).ready(function() {
+            //首先将#btn隐藏
+            $("#btn").hide();
+            //当滚动条的位置处于距顶部50像素以下时，跳转链接出现，否则消失
+            $(function() {
+                $(window).scroll(function() {
+                    if ($(window).scrollTop() > 50) {
+                        $("#btn").fadeIn(200);
+                    } else {
+                        $("#btn").fadeOut(200);
+                    }
+                });
+                //当点击跳转链接后，回到页面顶部位置
+                $("#btn").click(function() {
+                    $('body,html').animate({
+                            scrollTop: 0
+                        },
+                        500);
+                    return false;
+                });
+            });
+        });
+
+    </script>
+</th:block>
+
+
+</body>
+</html>

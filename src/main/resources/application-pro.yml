@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.107.90.118:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: xdcf3233
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+jasypt:
+  encryptor:
+    password: nmyswls
+logging:
+  level:
+    root: warn
+    com.itzixue.blog: info
+  file: /usr/local/bloglog/blog-pro.log
+server:
+  port: 8081

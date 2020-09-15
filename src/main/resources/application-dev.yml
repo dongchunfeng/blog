@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: ENC(xKmnESnfNMXrFSZgbtaxCw==)
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+  thymeleaf:
+    cache: false
+jasypt:
+  encryptor:
+    password: nmyswls
+logging:
+  level:
+    root: info
+    com.itzixue.blog: debug
+  file: log/blog-dev.log
+
